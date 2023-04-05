@@ -38,7 +38,7 @@ MyStack::MyStack(MyStack& s){
 	this->tos = s.tos;
 	this->element = new string[size];
 
-	for(int i = 0; i < size; i++){
+	for(int i = 0; i < s.tos+1; i++){
 		element[i] = s.element[i];
 	}
 }
@@ -49,22 +49,21 @@ MyStack::~MyStack(){
 }
 
 bool MyStack::push(string item){
-	
-	cout << "Enter string : ";
-	string s;
-	cin >> s;
 	if(tos == size-1) {
 		cout << "stack is full" << endl;
 		return false;
 	}
-	element[++tos] = s;
+	element[++tos] = item;
 	return true;
 }
 
 bool MyStack::pop(string &item){
-	if(tos == -1) return false;
+	if(tos == -1) {
+		cout << "stack is empty" << endl;
+		return false;
+	}
 	item = element[tos];
-	element[tos--] = '\0';
+	element[tos--] = ' ';
 	return true;
 }
 
@@ -74,7 +73,8 @@ bool MyStack::peek(string &item){
 }
 
 void MyStack::print_stack(){
-	for(int i = -1; i < size; i++) cout << element[i] << " " ;
+	for(int i = 0; i < tos+1; i++) cout << this->element[i] << " " ;
+	cout << endl;
 }
 
 // 아래 코드는 수정 불가
@@ -96,8 +96,10 @@ int main() {
 	string  item;
 	cout << "Enter number of input string : " ;
 	cin >> input_size;
-
-	for (int i=0; i < input_size; i++){
+	cin.ignore();
+	for (int i=0; i < input_size; i++){	
+		cout << "Enter string : ";
+		getline(cin, item);
 		first_stack.push(item);
 	}
 
